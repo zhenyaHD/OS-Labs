@@ -1,0 +1,8 @@
+FROM ubuntu:20.04
+RUN apt update && \
+	apt install -y openssh-server rsync && \
+	mkdir /var/run/sshd
+COPY authorized_keys /root/.ssh/authorized_keys
+RUN sed -i 's/#PasswordAuthentication yes/PasswordAuthentication no/' /etc/ssh/sshd_config
+EXPOSE 22
+CMD ["/usr/sbin/sshd", "-D"]
